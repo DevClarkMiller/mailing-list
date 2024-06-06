@@ -7,10 +7,10 @@ const Header = () =>{
     const [menuActive, setMenuActive] = useState(false);
 
     return(
-        <header className="w-5/6 flex justify-center mb-2 ">
+        <header className="w-5/6 flex justify-center mb-2">
             {
                 !menuActive &&
-                <CardWrapper className="w-full flex items-center justify-between text-4xl">
+                <CardWrapper className="w-full flex items-center justify-between text-2xl sm:text-4xl md:text-5xl">
                     <RxHamburgerMenu onClick={() => setMenuActive(!menuActive)} className="hover:cursor-pointer" />
                     <h1 className="grow text-center select-none rubik">CVM - Mailing List</h1>
                 </CardWrapper>      

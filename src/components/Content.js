@@ -42,14 +42,14 @@ const Content = () =>{
                 <form className="flex gap-5 items-center" onSubmit={submitEmail}>
                     <label className="flex items-center text-xl h-full" htmlFor="email">Enter Email</label>
                     <input 
-                        className="grow p-1 rounded-lg border-black border-2 h-full"
+                        className="grow p-1 rounded-lg border-black border-2 h-full overflow-hidden"
                         required 
                         type="email" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)} 
                         placeholder="example@email.com"
                     />
-                    <CardWrapper style={{padding: "4px"}} className="flex items-center justify-center w-fit h-full aspect-square">
+                    <CardWrapper style={{padding: "4px"}} className="flex items-center justify-center w-fit h-full aspect-square shrink">
                         <button type="submit" className="p-0 m-0 flex items-center justify-center text-3xl">{loading ? <TailSpin stroke="#FF5733"/> : addedSuccess ? <IoMdMail /> : <ShakeLittle><IoMdMailOpen /></ShakeLittle>}</button>
                     </CardWrapper>
                 </form>
