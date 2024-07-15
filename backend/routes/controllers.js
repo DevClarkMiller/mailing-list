@@ -1,5 +1,48 @@
+const nodemailer = require('nodemailer');
 let sqlDB = require("./database");
 let db;
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: process.env.TRANSPONDER_PORT,
+    secure: false,
+    auth: {
+        user: process.env.MAIL_USER,
+        pass: process.env.MAIL_PASS
+    }
+});
+
+const sendMail = async (trans, mailOpts) =>{
+    try{
+        await trans.sendMail(mailOpts);
+        console.log('Confirmation email successfully sent!');
+    }catch(error){
+        console.log(error);
+    }
+}
+
+const createMailOptions = (details) =>{
+    const mailOptions = {
+        from: {
+            name: details.name
+        },
+        to: details.sendTo,
+        subject: 'Thank you for confirming',
+        text: details.text
+    }
+    return mailOptions;
+}
+
+const mailConfirmation = async (email) =>{
+    const mailOpts = createMailOptions({
+        name: 'Clark Miller',
+        sendTo: email,
+        text: "Thank you for subscribing to mailing.list.clarkmiller.ca | To opt-out, please contact me: clarkmillermail.ca"
+    });
+    sendMail(transporter, mailOpts);
+}
+
 const putEmailSql = (email) =>{
     return new Promise((resolve, reject) =>{
         const sql = 'INSERT INTO Emails(email, date_added) VALUES(?, ?);';
@@ -25,6 +68,7 @@ const putEmail = async (req, res) =>{
     try{
         const resMessage = await putEmailSql(email);
         console.log(resMessage);
+        mailConfirmation(email);
         res.status(201).send(resMessage);
     }catch(err){
         if(err.code === 'SQLITE_CONSTRAINT'){
@@ -45,4 +89,8 @@ const putEmail = async (req, res) =>{
     }
 }
 
-module.exports = {putEmail};
+const getNumUsers = async (req, res) =>{
+
+}
+
+module.exports = {putEmail, getNumUsers};

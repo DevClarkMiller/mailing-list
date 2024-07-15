@@ -26,6 +26,7 @@ const Content = () =>{
         setTimeout(() =>{
             setAddedSuccess(false);
         }, 500);
+        setEmail("");
     }
 
     return(
